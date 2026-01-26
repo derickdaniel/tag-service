@@ -2,11 +2,14 @@ package com.microservice.tags.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.microservice.tags.dto.TagDTO;
 import com.microservice.tags.entity.TagEntity;
+import com.microservice.tags.mapper.TagMapper;
 import com.microservice.tags.repository.TagRepository;
 
 @Service
@@ -33,6 +36,12 @@ public class TagService {
     public Optional<TagEntity> getTagBySlug(String slug) {
         return tagRepository.findBySlug(slug);
     }
+    
+	public List<TagDTO> getTagsByIssueId(Long issueId) {
+		
+		List<TagEntity> tags = tagRepository.findTagsByIssueId(issueId);
+		return tags.stream().map(TagMapper::toDTO).collect(Collectors.toList());
+	}
 
     public List<TagEntity> searchTags(String keyword) {
         return tagRepository.findByNameContainingIgnoreCase(keyword);

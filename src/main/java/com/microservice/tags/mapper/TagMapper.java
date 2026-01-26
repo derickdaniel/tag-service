@@ -13,6 +13,7 @@ public class TagMapper {
             return null;
         }
         return new TagDTO(
+                tag.getId(),
                 tag.getUuid(),
                 tag.getName(),
                 tag.getSlug(),

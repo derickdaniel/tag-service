@@ -21,8 +21,8 @@ public class TagAssignmentEntity {
 	@Column(name = "entity_type", length = 50, nullable = false)
 	private String entityType;
 
-	@Column(name = "entity_id", length = 36, nullable = false)
-	private String entityId;
+	@Column(name = "entity_id", nullable = false)
+	private Long entityId;
 
 	@Column(name = "created_by", nullable = false)
 	private Integer createdBy;
@@ -33,11 +33,12 @@ public class TagAssignmentEntity {
 	public TagAssignmentEntity() {
 	}
 
-	public TagAssignmentEntity(TagEntity tag, String entityType, String entityId, Integer createdBy) {
+	public TagAssignmentEntity(TagEntity tag, String entityType, Long entityId, Integer createdBy, LocalDateTime createdAt) {
 		this.tag = tag;
 		this.entityType = entityType;
 		this.entityId = entityId;
 		this.createdBy = createdBy;
+		this.createdAt = createdAt;
 	}
 
 	public Long getId() {
@@ -64,11 +65,11 @@ public class TagAssignmentEntity {
 		this.entityType = entityType;
 	}
 
-	public String getEntityId() {
+	public Long getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId(String entityId) {
+	public void setEntityId(Long entityId) {
 		this.entityId = entityId;
 	}
 

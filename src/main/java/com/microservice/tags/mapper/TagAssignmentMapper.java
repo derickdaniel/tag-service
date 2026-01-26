@@ -13,6 +13,7 @@ public class TagAssignmentMapper {
 		if (assignment == null) {
 			return null;
 		}
+
 		return new TagAssignmentDTO(assignment.getId(),
 				assignment.getTag() != null ? assignment.getTag().getId() : null, assignment.getEntityType(),
 				assignment.getEntityId(), assignment.getCreatedBy(), assignment.getCreatedAt());

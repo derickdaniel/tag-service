@@ -1,21 +1,23 @@
 package com.microservice.tags.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TagAssignmentDTO {
 
 	private Long id;
 	private Long tagId; // reference to Tag entity
 	private String entityType; // e.g., "issue", "project"
-	private String entityId; // UUID of the entity
+	private Long entityId; // UUID of the entity
 	private Integer createdBy; // user who created the assignment
 	private LocalDateTime createdAt;
+	
+	private List<String> tagNameList; //new extra
 
-	// Constructors
 	public TagAssignmentDTO() {
 	}
 
-	public TagAssignmentDTO(Long id, Long tagId, String entityType, String entityId, Integer createdBy,
+	public TagAssignmentDTO(Long id, Long tagId, String entityType, Long entityId, Integer createdBy,
 			LocalDateTime createdAt) {
 		this.id = id;
 		this.tagId = tagId;
@@ -25,7 +27,6 @@ public class TagAssignmentDTO {
 		this.createdAt = createdAt;
 	}
 
-	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -42,6 +43,15 @@ public class TagAssignmentDTO {
 		this.tagId = tagId;
 	}
 
+
+	public List<String> getTagNameList() {
+		return tagNameList;
+	}
+
+	public void setTagNameList(List<String> tagNameList) {
+		this.tagNameList = tagNameList;
+	}
+
 	public String getEntityType() {
 		return entityType;
 	}
@@ -50,11 +60,11 @@ public class TagAssignmentDTO {
 		this.entityType = entityType;
 	}
 
-	public String getEntityId() {
+	public Long getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId(String entityId) {
+	public void setEntityId(Long entityId) {
 		this.entityId = entityId;
 	}
 
