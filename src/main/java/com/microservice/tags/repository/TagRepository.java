@@ -2,6 +2,8 @@ package com.microservice.tags.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.microservice.tags.entity.TagEntity;
@@ -26,4 +28,8 @@ public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
     // Check existence by slug
     boolean existsBySlug(String slug);
+    
+    @Query("SELECT ta.tag FROM TagAssignmentEntity ta " + "WHERE ta.entityType = 'ISSUE' AND ta.entityId = :issueId")
+	List<TagEntity> findTagsByIssueId(@Param("issueId") Long issueId);
+
 }

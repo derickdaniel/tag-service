@@ -1,7 +1,3 @@
-select * from issues;
-describe issues;
-create database tags_db;
-
 CREATE TABLE tags (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   uuid CHAR(36) NOT NULL UNIQUE,  -- public reference for cross-service use
@@ -27,4 +23,6 @@ CREATE TABLE tag_assignments (
   INDEX idx_entity (entity_type, entity_id),
   INDEX idx_tag (tag_id)
 );
+
+Alter TABLE tag_assignments MODIFY COLUMN entity_id int NOT NULL;
 

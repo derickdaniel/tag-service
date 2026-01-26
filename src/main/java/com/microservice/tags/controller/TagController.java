@@ -52,6 +52,13 @@ public class TagController {
         return ResponseEntity.ok(TagMapper.toDTOList(tags));
     }
 
+    // List all tags by issue id
+    @GetMapping("/issue/{issueId}")
+    public ResponseEntity<List<TagDTO>> getTagsByIssueId(@PathVariable String issueId) {
+        List<TagDTO> tags = tagService.getTagsByIssueId(Long.valueOf(issueId));
+        return ResponseEntity.ok(tags);
+    }
+
     // Delete tag by slug
     @DeleteMapping("/{slug}")
     public ResponseEntity<Void> deleteTag(@PathVariable String slug) {
