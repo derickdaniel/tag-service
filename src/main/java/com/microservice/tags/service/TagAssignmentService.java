@@ -15,7 +15,9 @@ import com.microservice.tags.repository.TagRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -71,9 +73,9 @@ public class TagAssignmentService {
 				log.info("Tag not found in db with name " + tagName);
 
 				TagDTO newTag = new TagDTO();
-				
+
 				String name = tagName.toLowerCase().replace(' ', '-');
-				
+
 				newTag.setUuid(UUID.randomUUID().toString());
 				newTag.setName(name);
 				newTag.setSlug(name);
@@ -106,7 +108,23 @@ public class TagAssignmentService {
 	public List<TagAssignmentEntity> getAssignmentsForTag(Long tagId) {
 		return tagAssignmentRepository.findByTag_Id(tagId);
 	}
-	
+
+	// Multiple issues -> Map<issueId, List<TagDTO>>
+	public Map<Long, List<TagDTO>> getTagsByCreatedBy(Long createdBy) {
+
+		List<Object[]> rows = tagAssignmentRepository.findTagsByCreatedBy(createdBy);
+		Map<Long, List<TagDTO>> result = new HashMap<>();
+
+		for (Object[] row : rows) {
+
+			Long entityId = (Long) row[0];
+			TagEntity tagEntity = (TagEntity) row[1];
+			TagDTO dto = TagMapper.toDTO(tagEntity);
+			result.computeIfAbsent(entityId, k -> new ArrayList<>()).add(dto);
+		}
+		return result;
+	}
+
 	// Remove a tag assignment
 	public boolean removeAssignment(Long tagId, String entityType, Long entityId) {
 		Optional<TagAssignmentEntity> assignment = tagAssignmentRepository.findByTag_IdAndEntityTypeAndEntityId(tagId,
@@ -122,16 +140,17 @@ public class TagAssignmentService {
 	public void removeAllAssignmentsForEntity(String entityType, Long entityId) {
 		tagAssignmentRepository.deleteByEntityTypeAndEntityId(entityType, entityId);
 	}
-	
-	private  String getRandomHexColor() {
-        // Generate a random integer between 0 (inclusive) and 0x1000000 (exclusive)
-        // 0x1000000 is 16777216 in decimal, which is one more than 0xFFFFFF
-		Random random = new Random();
-        int nextInt = random.nextInt(0x1000000); 
 
-        // Format the integer as a 6-digit hexadecimal string, padding with leading zeros
-        String colorCode = String.format("#%06x", nextInt); 
-        
-        return colorCode;
-    }
+	private String getRandomHexColor() {
+		// Generate a random integer between 0 (inclusive) and 0x1000000 (exclusive)
+		// 0x1000000 is 16777216 in decimal, which is one more than 0xFFFFFF
+		Random random = new Random();
+		int nextInt = random.nextInt(0x1000000);
+
+		// Format the integer as a 6-digit hexadecimal string, padding with leading
+		// zeros
+		String colorCode = String.format("#%06x", nextInt);
+
+		return colorCode;
+	}
 }
