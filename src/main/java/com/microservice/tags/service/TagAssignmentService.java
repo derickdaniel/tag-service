@@ -40,7 +40,8 @@ public class TagAssignmentService {
 
 		for (String tagName : tagNameList) {
 			// 1. Get Tag by Name
-
+			
+			tagName = tagName.toLowerCase().replace(' ', '-');
 			log.info("Searching for tag: " + tagName);
 			Optional<TagEntity> tagOpt = tagRepository.findByName(tagName.toLowerCase());
 
@@ -95,7 +96,6 @@ public class TagAssignmentService {
 				tagAssignmentList.add(assignment);
 			}
 		}
-
 		return tagAssignmentList;
 	}
 
