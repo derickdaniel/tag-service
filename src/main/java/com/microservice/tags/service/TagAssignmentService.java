@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.microservice.tags.dto.TagAssignmentDTO;
 import com.microservice.tags.dto.TagDTO;
@@ -12,6 +13,7 @@ import com.microservice.tags.entity.TagEntity;
 import com.microservice.tags.mapper.TagMapper;
 import com.microservice.tags.repository.TagAssignmentRepository;
 import com.microservice.tags.repository.TagRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -136,7 +138,7 @@ public class TagAssignmentService {
 		return false;
 	}
 
-	// Remove all assignments for an entity
+	@Transactional
 	public void removeAllAssignmentsForEntity(String entityType, Long entityId) {
 		tagAssignmentRepository.deleteByEntityTypeAndEntityId(entityType, entityId);
 	}
