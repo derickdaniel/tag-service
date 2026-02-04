@@ -117,17 +117,15 @@ public class TagAssignmentService {
     public Map<Long, List<TagDTO>> getTagsByCreatedBy(Long createdBy) {
 
         List<Object[]> rows = tagAssignmentRepository.findTagsByCreatedBy(createdBy);
-        Map<Long, List<TagDTO>> result = new HashMap<>();
-
-        for (Object[] row : rows) {
-
-            Long entityId = (Long) row[0];
-            TagEntity tagEntity = (TagEntity) row[1];
-            TagDTO dto = TagMapper.toDTO(tagEntity);
-            result.computeIfAbsent(entityId, k -> new ArrayList<>()).add(dto);
-        }
-        return result;
+        return createTagAssignmentMap(rows);
     }
+
+    public Map<Long, List<TagDTO>> getTagsByTagIdAndByCreatedBy(Long tagId, Long createdBy) {
+
+        List<Object[]> rows = tagAssignmentRepository.getTagsByTagIdAndByCreatedBy(tagId, createdBy);
+        return createTagAssignmentMap(rows);
+    }
+    
 
     // Remove a tag assignment
     public boolean removeAssignment(Long tagId, String entityType, Long entityId) {
@@ -162,4 +160,17 @@ public class TagAssignmentService {
 
         return colorCode;
     }
+    
+    private Map<Long, List<TagDTO>> createTagAssignmentMap(List<Object[]> rows) {
+		Map<Long, List<TagDTO>> result = new HashMap<>();
+
+        for (Object[] row : rows) {
+
+            Long entityId = (Long) row[0];
+            TagEntity tagEntity = (TagEntity) row[1];
+            TagDTO dto = TagMapper.toDTO(tagEntity);
+            result.computeIfAbsent(entityId, k -> new ArrayList<>()).add(dto);
+        }
+		return result;
+	}
 }

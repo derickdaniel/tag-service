@@ -29,5 +29,8 @@ public interface TagAssignmentRepository extends JpaRepository<TagAssignmentEnti
 	// entityId via projection)
 	@Query("SELECT ta.entityId AS entityId, ta.tag AS tag FROM TagAssignmentEntity ta WHERE ta.entityType = 'ISSUE' AND ta.createdBy = :createdBy")
 	List<Object[]> findTagsByCreatedBy(@Param("createdBy") Long createdBy);
+	
+	@Query("SELECT ta.entityId AS entityId, ta.tag AS tag FROM TagAssignmentEntity ta WHERE ta.entityType = 'ISSUE' AND ta.createdBy = :createdBy AND ta.tag.id = :tagId")
+	List<Object[]> getTagsByTagIdAndByCreatedBy(Long tagId, Long createdBy);
 
 }
