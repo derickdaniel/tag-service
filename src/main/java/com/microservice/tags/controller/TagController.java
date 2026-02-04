@@ -18,61 +18,57 @@ import java.util.Optional;
 @RequestMapping("/api/tags")
 public class TagController {
 
-	@Autowired
-	private TagService tagService;
+    @Autowired
+    private TagService tagService;
 
-	@Autowired
-	private TagAssignmentService tagAssignmentService;
+    @Autowired
+    private TagAssignmentService tagAssignmentService;
 
-	// Create a new tag
-	@PostMapping
-	public ResponseEntity<TagDTO> createTag(@RequestBody TagDTO tag) {
-		TagEntity createdTag = tagService.createTag(TagMapper.toEntity(tag));
-		return ResponseEntity.ok(TagMapper.toDTO(createdTag));
-	}
+    // Create a new tag
+    @PostMapping
+    public ResponseEntity<TagDTO> createTag(@RequestBody TagDTO tag) {
+        TagEntity createdTag = tagService.createTag(TagMapper.toEntity(tag));
+        return ResponseEntity.ok(TagMapper.toDTO(createdTag));
+    }
 
-	// Get tag by slug
-	@GetMapping("/{slug}")
-	public ResponseEntity<TagDTO> getTagBySlug(@PathVariable String slug) {
-		Optional<TagEntity> tag = tagService.getTagBySlug(slug);
-		if (tag.isPresent()) {
-			return ResponseEntity.ok(TagMapper.toDTO(tag.get()));
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+    // Get tag by slug
+    @GetMapping("/{slug}")
+    public ResponseEntity<TagDTO> getTagBySlug(@PathVariable String slug) {
+        TagEntity tag = tagService.getTagBySlug(slug);
+        return ResponseEntity.ok(TagMapper.toDTO(tag));
+    }
 
-	// Search tags by keyword
-	@GetMapping("/search")
-	public ResponseEntity<List<TagDTO>> searchTags(@RequestParam String keyword) {
-		List<TagEntity> tags = tagService.searchTags(keyword);
-		return ResponseEntity.ok(TagMapper.toDTOList(tags));
-	}
+    // Search tags by keyword
+    @GetMapping("/search")
+    public ResponseEntity<List<TagDTO>> searchTags(@RequestParam String keyword) {
+        List<TagEntity> tags = tagService.searchTags(keyword);
+        return ResponseEntity.ok(TagMapper.toDTOList(tags));
+    }
 
-	// List all tags
-	@GetMapping
-	public ResponseEntity<List<TagDTO>> getAllTags() {
-		List<TagEntity> tags = tagService.getAllTags();
-		return ResponseEntity.ok(TagMapper.toDTOList(tags));
-	}
+    // List all tags
+    @GetMapping
+    public ResponseEntity<List<TagDTO>> getAllTags() {
+        List<TagEntity> tags = tagService.getAllTags();
+        return ResponseEntity.ok(TagMapper.toDTOList(tags));
+    }
 
-	// List all tags by issue id
-	@GetMapping("/issue/{issueId}")
-	public ResponseEntity<List<TagDTO>> getTagsByIssueId(@PathVariable String issueId) {
-		List<TagDTO> tags = tagService.getTagsByIssueId(Long.valueOf(issueId));
-		return ResponseEntity.ok(tags);
-	}
+    // List all tags by issue id
+    @GetMapping("/issue/{issueId}")
+    public ResponseEntity<List<TagDTO>> getTagsByIssueId(@PathVariable String issueId) {
+        List<TagDTO> tags = tagService.getTagsByIssueId(Long.valueOf(issueId));
+        return ResponseEntity.ok(tags);
+    }
 
-	// Get all tags by createdBy
-	@GetMapping("/user/{createdBy}")
-	public ResponseEntity<Map<Long, List<TagDTO>>> getTagsByCreatedBy(@PathVariable Long createdBy) {
-		Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByCreatedBy(createdBy);
-		return ResponseEntity.ok(resultMap);
-	}
+    // Get all tags by createdBy
+    @GetMapping("/user/{createdBy}")
+    public ResponseEntity<Map<Long, List<TagDTO>>> getTagsByCreatedBy(@PathVariable Long createdBy) {
+        Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByCreatedBy(createdBy);
+        return ResponseEntity.ok(resultMap);
+    }
 
-	// Delete tag by slug
-	@DeleteMapping("/{slug}")
-	public ResponseEntity<Void> deleteTag(@PathVariable String slug) {
-		return ResponseEntity.unprocessableEntity().build();
-	}
+    // Delete tag by slug
+    @DeleteMapping("/{slug}")
+    public ResponseEntity<Void> deleteTag(@PathVariable String slug) {
+        return ResponseEntity.unprocessableEntity().build();
+    }
 }

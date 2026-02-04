@@ -1,9 +1,10 @@
 package com.microservice.tags.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.microservice.tags.exception.BadRequestException;
+import com.microservice.tags.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import com.microservice.tags.repository.TagRepository;
 @Service
 public class TagService {
 
-	@Autowired
+    @Autowired
     private TagRepository tagRepository;
 
 
@@ -28,22 +29,27 @@ public class TagService {
         }
         return tagRepository.save(tag);
     }
-    
+
     public List<TagEntity> getAllTags() {
         return tagRepository.findAll();
     }
 
-    public Optional<TagEntity> getTagBySlug(String slug) {
-        return tagRepository.findBySlug(slug);
+    public TagEntity getTagBySlug(String slug) {
+        return tagRepository.findBySlug(slug).orElseThrow(
+                () -> new ResourceNotFoundException(" Tag not found with slug:" + slug)
+        );
     }
-    
-	public List<TagDTO> getTagsByIssueId(Long issueId) {
-		
-		List<TagEntity> tags = tagRepository.findTagsByIssueId(issueId);
-		return tags.stream().map(TagMapper::toDTO).collect(Collectors.toList());
-	}
+
+    public List<TagDTO> getTagsByIssueId(Long issueId) {
+        List<TagEntity> tags = tagRepository.findTagsByIssueId(issueId);
+        return tags.stream().map(TagMapper::toDTO).collect(Collectors.toList());
+    }
 
     public List<TagEntity> searchTags(String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            throw new BadRequestException("Search keyword must not be empty");
+        }
         return tagRepository.findByNameContainingIgnoreCase(keyword);
     }
 }
