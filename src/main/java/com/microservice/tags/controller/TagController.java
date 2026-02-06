@@ -1,18 +1,24 @@
 package com.microservice.tags.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.tags.dto.TagDTO;
 import com.microservice.tags.entity.TagEntity;
 import com.microservice.tags.mapper.TagMapper;
 import com.microservice.tags.service.TagAssignmentService;
 import com.microservice.tags.service.TagService;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tags")
@@ -63,6 +69,13 @@ public class TagController {
     @GetMapping("/user/{createdBy}")
     public ResponseEntity<Map<Long, List<TagDTO>>> getTagsByCreatedBy(@PathVariable Long createdBy) {
         Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByCreatedBy(createdBy);
+        return ResponseEntity.ok(resultMap);
+    }
+    
+ // Get all tags by createdBy
+    @GetMapping("/user/{createdBy}/{tagId}")
+    public ResponseEntity<Map<Long, List<TagDTO>>> getTagsBytag(@PathVariable Long tagId, @PathVariable Long createdBy) {
+        Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByTagIdAndByCreatedBy(tagId, createdBy);
         return ResponseEntity.ok(resultMap);
     }
 
