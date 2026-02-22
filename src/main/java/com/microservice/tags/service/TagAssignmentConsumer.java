@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagAssignmentConsumer {
 
-    @KafkaListener(topics = "tagassignment")
+    //@KafkaListener(topics = "tagassignment")
     public void consume(TagAssignmentDTO dto) {
         System.out.println("Event received: " + dto);
     }

@@ -41,6 +41,8 @@ public class TagAssignmentService {
 
         List<String> tagNameList = tagAsssignDTO.getTagNameList();
         List<TagAssignmentEntity> tagAssignmentList = new ArrayList<TagAssignmentEntity>();
+        
+        List<TagAssignmentEntity> existingTagAssignmentList = tagAssignmentRepository.findByEntityTypeAndEntityId(tagAsssignDTO.getEntityType(), tagAsssignDTO.getEntityId());
 
         for (String tagName : tagNameList) {
             // 1. Get Tag by Name
@@ -99,7 +101,17 @@ public class TagAssignmentService {
 
                 tagAssignmentList.add(assignment);
             }
+            
+            // removing exiting tags, which are not in new list
+            String s = tagName;
+            existingTagAssignmentList.removeIf(ta -> ta.getTag().getName().equalsIgnoreCase(s));
         }
+
+         existingTagAssignmentList.forEach(ta -> {
+            tagAssignmentRepository.deleteById(ta.getId());
+            log.info("deleted tag assignment", ta.getId() + ": " + ta.getTag().getName());
+         });
+		
         return tagAssignmentList;
     }
 
