@@ -147,6 +147,12 @@ public class TagAssignmentService {
     public void removeAllAssignmentsForEntity(String entityType, Long entityId) {
         tagAssignmentRepository.deleteByEntityTypeAndEntityId(entityType, entityId);
     }
+    
+    public Map<Long, List<TagDTO>> getTagsByEntityType(String entityType) {
+
+        List<Object[]> rows = tagAssignmentRepository.getTagsByEntityType(entityType);
+        return createTagAssignmentMap(rows);
+    }
 
     private String getRandomHexColor() {
         // Generate a random integer between 0 (inclusive) and 0x1000000 (exclusive)
