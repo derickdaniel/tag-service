@@ -132,9 +132,9 @@ public class TagAssignmentService {
         return createTagAssignmentMap(rows);
     }
 
-    public Map<Long, List<TagDTO>> getTagsByTagIdAndByCreatedBy(Long tagId, Long createdBy) {
+    public Map<Long, List<TagDTO>> getTagsByTagIdAndByCreatedBy(Long tagId, Long createdBy, String entityType) {
 
-        List<Object[]> rows = tagAssignmentRepository.getTagsByTagIdAndByCreatedBy(tagId, createdBy);
+        List<Object[]> rows = tagAssignmentRepository.getTagsByTagIdAndByCreatedBy(tagId, createdBy, entityType);
         return createTagAssignmentMap(rows);
     }
     

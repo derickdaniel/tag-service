@@ -72,9 +72,9 @@ public class TagController {
         return ResponseEntity.ok(resultMap);
     }
     
-    @GetMapping("/user/{createdBy}/{tagId}")
-    public ResponseEntity<Map<Long, List<TagDTO>>> getTagsBytag(@PathVariable Long tagId, @PathVariable Long createdBy) {
-        Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByTagIdAndByCreatedBy(tagId, createdBy);
+    @GetMapping("/user/{createdBy}/{entityType}/{tagId}")
+    public ResponseEntity<Map<Long, List<TagDTO>>> getTagsBytag(@PathVariable Long tagId, @PathVariable Long createdBy, @PathVariable String entityType) {
+        Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByTagIdAndByCreatedBy(tagId, createdBy, entityType);
         return ResponseEntity.ok(resultMap);
     }
     
