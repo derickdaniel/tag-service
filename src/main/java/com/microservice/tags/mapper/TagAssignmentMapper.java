@@ -1,9 +1,11 @@
 package com.microservice.tags.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.microservice.tags.dto.TagAssignmentDTO;
+import com.microservice.tags.dto.TagMetaDataDTO;
 import com.microservice.tags.entity.TagAssignmentEntity;
 import com.microservice.tags.entity.TagEntity;
 
@@ -45,5 +47,24 @@ public class TagAssignmentMapper {
 			return null;
 		}
 		return dtos.stream().map(dto -> toEntity(dto, tag)).collect(Collectors.toList());
+	}
+	
+	public static List<TagMetaDataDTO> createTagMetaDataList(List<Object[]> rows) {
+
+		List<TagMetaDataDTO> tagMetaDataList = new ArrayList<TagMetaDataDTO>();
+
+		for (Object[] row : rows) {
+
+			Long tagId = (Long) row[0];
+			Long count = (Long) row[1];
+			String entityType = null;
+			if(row.length > 2) {
+				 entityType = (String) row[2];
+			}
+
+			tagMetaDataList.add(new TagMetaDataDTO(null, tagId, null, entityType, count));
+		}
+
+		return tagMetaDataList;
 	}
 }

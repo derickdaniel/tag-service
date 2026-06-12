@@ -11,11 +11,13 @@ public class TagDTO {
 	private String description;
 	private String color;
 	private LocalDateTime createdAt;
+	private Long count;
 
 	public TagDTO() {
 	}
 
-	public TagDTO(Long id, String uuid, String name, String slug, String description, String color, LocalDateTime createdAt) {
+	public TagDTO(Long id, String uuid, String name, String slug, String description, String color,
+			LocalDateTime createdAt) {
 		this.id = id;
 		this.uuid = uuid;
 		this.name = name;
@@ -79,6 +81,14 @@ public class TagDTO {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
 	}
 
 }

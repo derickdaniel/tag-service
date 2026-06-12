@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microservice.tags.dto.TagDTO;
+import com.microservice.tags.dto.TagMetaDataDTO;
 import com.microservice.tags.entity.TagEntity;
+import com.microservice.tags.mapper.TagAssignmentMapper;
 import com.microservice.tags.mapper.TagMapper;
+import com.microservice.tags.repository.TagAssignmentRepository;
 import com.microservice.tags.repository.TagRepository;
 
 @Service
@@ -18,6 +21,9 @@ public class TagService {
 
     @Autowired
     private TagRepository tagRepository;
+    
+    @Autowired
+    private TagAssignmentRepository tagAssignmentRepository;
 
 
     public TagEntity createTag(TagEntity tag) {
@@ -30,8 +36,11 @@ public class TagService {
         return tagRepository.save(tag);
     }
 
-    public List<TagEntity> getAllTags() {
-        return tagRepository.findAll();
+    public List<TagDTO> getAllTags() {
+    		List<TagEntity> tags = tagRepository.findAll();
+    		List<TagMetaDataDTO> tagsMetadataList = TagAssignmentMapper.createTagMetaDataList(tagAssignmentRepository.getTotalEntityCountByTag());
+    		
+        return TagMapper.toDTOList(tags, tagsMetadataList);
     }
 
     public TagEntity getTagBySlug(String slug) {

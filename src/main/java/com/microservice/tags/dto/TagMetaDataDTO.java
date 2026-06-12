@@ -1,6 +1,9 @@
 package com.microservice.tags.dto;
 
-public record TagMetaDataDTO(TagDTO tagDto, long entityId, String entityType, long count) {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record TagMetaDataDTO(TagDTO tagDto, Long tagId, Long entityId, String entityType, Long count) {
 
 
 }

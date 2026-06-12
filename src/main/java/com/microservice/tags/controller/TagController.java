@@ -55,8 +55,7 @@ public class TagController {
 	// List all tags
 	@GetMapping
 	public ResponseEntity<List<TagDTO>> getAllTags() {
-		List<TagEntity> tags = tagService.getAllTags();
-		return ResponseEntity.ok(TagMapper.toDTOList(tags));
+		return ResponseEntity.ok(tagService.getAllTags());
 	}
 
 	// List all tags by issue id

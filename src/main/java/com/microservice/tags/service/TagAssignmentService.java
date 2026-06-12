@@ -13,6 +13,7 @@ import com.microservice.tags.dto.TagDTO;
 import com.microservice.tags.dto.TagMetaDataDTO;
 import com.microservice.tags.entity.TagAssignmentEntity;
 import com.microservice.tags.entity.TagEntity;
+import com.microservice.tags.mapper.TagAssignmentMapper;
 import com.microservice.tags.mapper.TagMapper;
 import com.microservice.tags.repository.TagAssignmentRepository;
 import com.microservice.tags.repository.TagRepository;
@@ -166,13 +167,13 @@ public class TagAssignmentService {
 	public List<TagMetaDataDTO> getTotalEntityCountByTag() {
 
 		List<Object[]> rows = tagAssignmentRepository.getTotalEntityCountByTag();
-		return createTagMetaDataList(rows);
+		return TagAssignmentMapper.createTagMetaDataList(rows);
 	}
 
 	public List<TagMetaDataDTO> getTotalEntityCountByTagEntityType() {
 
 		List<Object[]> rows = tagAssignmentRepository.getTotalEntityCountByTagEntityType();
-		return createTagMetaDataList(rows);
+		return TagAssignmentMapper.createTagMetaDataList(rows);
 	}
 
 	private String getRandomHexColor() {
@@ -201,22 +202,4 @@ public class TagAssignmentService {
 		return result;
 	}
 
-	private List<TagMetaDataDTO> createTagMetaDataList(List<Object[]> rows) {
-
-		List<TagMetaDataDTO> tagMetaDataList = new ArrayList<TagMetaDataDTO>();
-
-		for (Object[] row : rows) {
-
-			TagEntity tagEntity = (TagEntity) row[0];
-			Long count = (Long) row[1];
-			String entityType = "";
-			if(row.length > 2) {
-				 entityType = (String) row[2];
-			}
-
-			tagMetaDataList.add(new TagMetaDataDTO(TagMapper.toDTO(tagEntity), 0, entityType, count));
-		}
-
-		return tagMetaDataList;
-	}
 }
