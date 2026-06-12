@@ -35,5 +35,15 @@ public interface TagAssignmentRepository extends JpaRepository<TagAssignmentEnti
 	
 	@Query("SELECT ta.entityId AS entityId, ta.tag AS tag FROM TagAssignmentEntity ta WHERE ta.entityType = :entityType")
 	List<Object[]> getTagsByEntityType(@Param("entityType") String entityType);
+	
+	
+	@Query("SELECT ta.tag, COUNT(ta.entityId) as count FROM TagAssignmentEntity ta GROUP BY ta.tag ORDER BY ta.tag.id")
+	List<Object[]> getTotalEntityCountByTag();
+	
+	@Query("SELECT ta.tag, COUNT(ta.entityId) as count, ta.entityType AS entityType FROM TagAssignmentEntity ta GROUP BY ta.tag, ta.entityType ORDER BY ta.tag.id")
+	List<Object[]> getTotalEntityCountByTagEntityType();
+	
+	
+	//select tag_id, COUNT(DISTINCT entity_id) from tags_db.tag_assignments  GROUP BY tag_id ORDER BY tag_id;
 
 }

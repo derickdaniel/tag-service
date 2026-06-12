@@ -52,4 +52,8 @@ public class TagService {
         }
         return tagRepository.findByNameContainingIgnoreCase(keyword);
     }
+    
+    public Long getTotalCount() {
+    		return tagRepository.count();
+    }
 }
