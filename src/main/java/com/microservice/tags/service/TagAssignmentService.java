@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.microservice.tags.dto.EntityCountDTO;
 import com.microservice.tags.dto.TagAssignmentDTO;
 import com.microservice.tags.dto.TagDTO;
 import com.microservice.tags.dto.TagMetaDataDTO;
@@ -170,10 +171,10 @@ public class TagAssignmentService {
 		return TagAssignmentMapper.createTagMetaDataList(rows);
 	}
 
-	public List<TagMetaDataDTO> getTotalEntityCountByTagEntityType() {
+	public Map<Long, EntityCountDTO> getTotalEntityCountByTagEntityType() {
 
 		List<Object[]> rows = tagAssignmentRepository.getTotalEntityCountByTagEntityType();
-		return TagAssignmentMapper.createTagMetaDataList(rows);
+		return TagAssignmentMapper.createTagMetaDataList2(rows);
 	}
 
 	private String getRandomHexColor() {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microservice.tags.dto.EntityCountDTO;
 import com.microservice.tags.dto.TagDTO;
 import com.microservice.tags.dto.TagMetaDataDTO;
 import com.microservice.tags.entity.TagEntity;
@@ -80,7 +81,7 @@ public class TagController {
 		return ResponseEntity.ok(resultMap);
 	}
 
-	@GetMapping("/entity/{enttityType}")
+	@GetMapping("/entity/{entityType}")
 	public ResponseEntity<Map<Long, List<TagDTO>>> getTagsByEntityType(@PathVariable String enttityType) {
 		Map<Long, List<TagDTO>> resultMap = tagAssignmentService.getTagsByEntityType(enttityType);
 		return ResponseEntity.ok(resultMap);
@@ -92,7 +93,7 @@ public class TagController {
 	}
 
 	@GetMapping("/entity/countByEntity")
-	public ResponseEntity<List<TagMetaDataDTO>> getTotalEntityCountByTagEntityType() {
+	public ResponseEntity<Map<Long, EntityCountDTO>> getTotalEntityCountByTagEntityType() {
 		return ResponseEntity.ok(tagAssignmentService.getTotalEntityCountByTagEntityType());
 	}
 
